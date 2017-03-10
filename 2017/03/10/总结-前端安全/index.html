@@ -9,24 +9,18 @@
   <title>总结--前端安全 | AMIE&#39;S BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前端安全问题是必须防范的问题，网页都有被攻击的风险，我们必须了解其原理才能更好的采取防范措施，维护前端安全。
-前端攻击形式XSS攻击跨站脚本攻击，它允许web用户将代码植入到提供给其他用户使用的页面中，在前端方面，可以简单的理解为一种JavaScript代码注入。它的核心是利用了浏览器无法区分脚本是第三方注入的，还是真的是你应用程序的一部分。
-比如：
-12345678//前端模板&amp;lt;span&amp;">
+前端攻击形式XSS攻击跨站脚本攻击，它允许web用户将代码植入到提供给其他用户使用的页面中，在前端方面，可以简单的理解为一种JavaScript代码注入。它的核心是利用了浏览器无法区分脚本是第三方注入的，还是真的是你应用程序的一部分。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="总结--前端安全">
 <meta property="og:url" content="http://yoursite.com/2017/03/10/总结-前端安全/index.html">
 <meta property="og:site_name" content="AMIE'S BLOG">
 <meta property="og:description" content="前端安全问题是必须防范的问题，网页都有被攻击的风险，我们必须了解其原理才能更好的采取防范措施，维护前端安全。
-前端攻击形式XSS攻击跨站脚本攻击，它允许web用户将代码植入到提供给其他用户使用的页面中，在前端方面，可以简单的理解为一种JavaScript代码注入。它的核心是利用了浏览器无法区分脚本是第三方注入的，还是真的是你应用程序的一部分。
-比如：
-12345678//前端模板&amp;lt;span&amp;">
-<meta property="og:updated_time" content="2017-03-10T07:40:28.330Z">
+前端攻击形式XSS攻击跨站脚本攻击，它允许web用户将代码植入到提供给其他用户使用的页面中，在前端方面，可以简单的理解为一种JavaScript代码注入。它的核心是利用了浏览器无法区分脚本是第三方注入的，还是真的是你应用程序的一部分。">
+<meta property="og:updated_time" content="2017-03-10T08:30:03.389Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="总结--前端安全">
 <meta name="twitter:description" content="前端安全问题是必须防范的问题，网页都有被攻击的风险，我们必须了解其原理才能更好的采取防范措施，维护前端安全。
-前端攻击形式XSS攻击跨站脚本攻击，它允许web用户将代码植入到提供给其他用户使用的页面中，在前端方面，可以简单的理解为一种JavaScript代码注入。它的核心是利用了浏览器无法区分脚本是第三方注入的，还是真的是你应用程序的一部分。
-比如：
-12345678//前端模板&amp;lt;span&amp;">
+前端攻击形式XSS攻击跨站脚本攻击，它允许web用户将代码植入到提供给其他用户使用的页面中，在前端方面，可以简单的理解为一种JavaScript代码注入。它的核心是利用了浏览器无法区分脚本是第三方注入的，还是真的是你应用程序的一部分。">
   
     <link rel="alternative" href="/atom.xml" title="AMIE&#39;S BLOG" type="application/atom+xml">
   
@@ -172,6 +166,7 @@
       
         <p>前端安全问题是必须防范的问题，网页都有被攻击的风险，我们必须了解其原理才能更好的采取防范措施，维护前端安全。</p>
 <h1 id="前端攻击形式"><a href="#前端攻击形式" class="headerlink" title="前端攻击形式"></a>前端攻击形式</h1><h2 id="XSS攻击"><a href="#XSS攻击" class="headerlink" title="XSS攻击"></a>XSS攻击</h2><p>跨站脚本攻击，它允许web用户将代码植入到提供给其他用户使用的页面中，在前端方面，可以简单的理解为一种JavaScript代码注入。它的核心是利用了浏览器无法区分脚本是第三方注入的，还是真的是你应用程序的一部分。</p>
+<a id="more"></a>
 <p>比如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//前端模板</div><div class="line">&lt;span&gt;&#123;&#123;text&#125;&#125;&lt;/span&gt;</div><div class="line"></div><div class="line">//后台数据</div><div class="line">text：&quot;&lt;script&gt;alert(&apos;warning&apos;)&lt;/script&gt;&quot;;</div><div class="line"></div><div class="line">//渲染后</div><div class="line">&lt;span&gt;&lt;script&gt;alert(&apos;warning&apos;)&lt;/script&gt;&lt;/span&gt;</div></pre></td></tr></table></figure>
 <p>这样网页渲染出来就会弹出warning的提示框。还有人会利用append植入恶意代码，或者是利用img标签的onerror事件触发恶意的JS代码，更有甚者，会通过JS访问到cookie中的用户敏感信息，非法获取利益。</p>
@@ -231,7 +226,7 @@
 <li>font-src：字体文件</li>
 <li>object-src：插件（比如 Flash）</li>
 <li>child-src：框架</li>
-<li>frame-ancestors：嵌入的外部资源（比如<frame>、<iframe>、<embed>和<applet>）</applet></iframe></li>
+<li>frame-ancestors：嵌入的外部资源（比如\<frame>、<iframe>、<embed>和<applet>）</applet></iframe></li>
 <li>connect-src：HTTP 连接（通过 XHR、WebSockets、EventSource等）</li>
 <li>worker-src：worker脚本</li>
 <li>manifest-src：manifest 文件<br>使用<code>default-src</code>来设置上面各个选项的默认值，还可以限制网页和其他URL发生联系</li>
