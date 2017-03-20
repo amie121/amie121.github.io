@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>AMIE&#39;S BLOG</title>
+  <title>浏览器缓存 | AMIE&#39;S BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="AMIE'S BLOG">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="为什么需要浏览器缓存我们获取新资源的方式是访问服务器，将所需的资源下载到本地。然而当我们需要重新获取这些资源时，如果还是通过访问服务器下载这些资源，就会造成时间上的浪费。况且静态资源如图片、样式表、JS脚本一般不会经常改动，因此可以将这些资源缓存在本地，再次获取资源时就可以从本地下载。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器缓存">
+<meta property="og:url" content="http://yoursite.com/2017/03/20/浏览器缓存/index.html">
 <meta property="og:site_name" content="AMIE'S BLOG">
+<meta property="og:description" content="为什么需要浏览器缓存我们获取新资源的方式是访问服务器，将所需的资源下载到本地。然而当我们需要重新获取这些资源时，如果还是通过访问服务器下载这些资源，就会造成时间上的浪费。况且静态资源如图片、样式表、JS脚本一般不会经常改动，因此可以将这些资源缓存在本地，再次获取资源时就可以从本地下载。">
+<meta property="og:updated_time" content="2017-03-20T11:16:04.200Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AMIE'S BLOG">
+<meta name="twitter:title" content="浏览器缓存">
+<meta name="twitter:description" content="为什么需要浏览器缓存我们获取新资源的方式是访问服务器，将所需的资源下载到本地。然而当我们需要重新获取这些资源时，如果还是通过访问服务器下载这些资源，就会造成时间上的浪费。况且静态资源如图片、样式表、JS脚本一般不会经常改动，因此可以将这些资源缓存在本地，再次获取资源时就可以从本地下载。">
   
     <link rel="alternative" href="/atom.xml" title="AMIE&#39;S BLOG" type="application/atom+xml">
   
@@ -137,16 +141,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-浏览器缓存" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-浏览器缓存" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/20/浏览器缓存/">浏览器缓存</a>
+    <h1 class="article-title" itemprop="name">
+      浏览器缓存
     </h1>
   
 
@@ -160,9 +162,29 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="为什么需要浏览器缓存"><a href="#为什么需要浏览器缓存" class="headerlink" title="为什么需要浏览器缓存"></a>为什么需要浏览器缓存</h3><p>我们获取新资源的方式是访问服务器，将所需的资源下载到本地。然而当我们需要重新获取这些资源时，如果还是通过访问服务器下载这些资源，就会造成时间上的浪费。况且静态资源如图片、样式表、JS脚本一般不会经常改动，因此可以将这些资源缓存在本地，再次获取资源时就可以从本地下载。</p>
-        
-          <a class="article-more-a" href="/2017/03/20/浏览器缓存/#more">more >></a>
-        
+<a id="more"></a>
+<h3 id="浏览器缓存是如何起作用的"><a href="#浏览器缓存是如何起作用的" class="headerlink" title="浏览器缓存是如何起作用的"></a>浏览器缓存是如何起作用的</h3><p>最重要的是判断缓存是否过期，如果缓存还在有效期内并且文件没有改动过就会从本地下载，如果缓存过期或者文件已经被修改就会从服务器下载。</p>
+<p>首次打开一个网页时，请求的文件直接从服务器下载下来，浏览器记录下响应体中的<code>Cache-Control</code>、<code>Expires</code>、<code>Last-Modified</code>、<code>Etag</code>这几个属性。并将文件缓存到本地。</p>
+<p>再次打开这个页面，缓存机制开始起作用：  </p>
+<ul>
+<li>首先判断该文件是否有缓存，如果没有则从服务器下载；如果有则判断缓存是否过期。  </li>
+<li>在<code>Cache-Control</code>中有个<code>max-age</code>值，该值指示浏览器可以接收生存期不大于指定时间（以秒为单位）的响应，它与<code>Expires</code>都是用来记录有效期的，如果没有过期，浏览器就直接从缓存中读取。</li>
+<li>如果已经过了期限，浏览器会发请求到服务器，请求头包含<code>Last-Modified-Since</code>、<code>If-None-Match</code>，分别为浏览器记录下的<code>Last-Modified</code>、<code>Etag</code>。服务器端通过这两个值来判断文件是否被修改过，如果没有修改过，返回一个304的状态码给浏览器，让浏览器继续从缓存中读取，如果文件已经被修改过了，则把文件发送给浏览器，浏览器更新<code>Cache-Control</code>、<code>Expires</code>、<code>Last-Modified</code>、<code>Etag</code>的值。</li>
+</ul>
+<p>Expires和max-age： Expires记录的是绝对时间，max-age记录的是相对时间，max-age的优先级更高，Cache-control的max-age和max-stale会覆盖Expires header，因为使用Expires存在服务器和浏览器时间不一致的问题。</p>
+<p>Last-Modified-Since和If-None-Match： If-None-Match比Last-Modified-Since的优先级高， 1. Last-Modified标注的最后修改只能精确到秒级，如果某些文件在1秒钟以内，被修改多次的话，它将不能准确标注文件的新鲜度 2. 如果某些文件会被定期生成，当有时内容并没有任何变化，但Last-Modified却改变了，导致文件没法使用缓存 3. 有可能存在服务器没有准确获取文件修改时间，或者与代理服务器时间不一致等情形。</p>
+<h3 id="不会被缓存的几种情况"><a href="#不会被缓存的几种情况" class="headerlink" title="不会被缓存的几种情况"></a>不会被缓存的几种情况</h3><ul>
+<li>POST请求</li>
+<li>https请求</li>
+<li>http响应头设置的Cache-Control:no-Cache,Etag和Last-Modified的值为空</li>
+</ul>
+<h3 id="更新静态资源"><a href="#更新静态资源" class="headerlink" title="更新静态资源"></a>更新静态资源</h3><p>如果服务器上改动一个JS脚本文件，但是如果浏览器在判断Expires和Cache-Control中的max-age这两个值的时候仍满足缓存条件（毕竟静态文件不会经常改动，设置比较长的缓存期也是很常见的）的时候，这时候连请求都不会发，怎么更新这个文件呢？</p>
+<p>解决方案：<strong>通过更新页面中引用的资源路径，加载新资源</strong>，<br>最常见的做法就是给文件加一个版本后缀，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=&quot;test.js?v=$&#123;version&#125;&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>目的是让浏览器把该文件当做是一个新的文件来加载</p>
+<p>如果页面结构，CSS样式和JS脚本都需要改动，这时候怎么把改动的东西发布到服务器上呢？</p>
+<p>无论先发布哪一个文件，中间的时间间隔都可能会造成页面样式错误或js无法交互，所以很多公司都会在趁用户访问量比较低，比如凌晨的时候发布新的资源，这样可以减少用户访问页面出错的概率。但这不是最好的解法方案，FIS提出了一种更好的解决方案：</p>
+<p>先发布CSS样式和JS脚本，但是这些CSS样式和JS脚本会重新命名，避免覆盖服务器上旧的CSS和JS，这时候旧的页面仍然是使用旧的CSS和JS。然后再修改页面中的引用资源路径，修改成重新命名的资源路径，这样子一旦页面发布上去了，就可以直接访问到之前已经发布到服务器上的资源，而不会出现页面出错的情况。</p>
+
       
 
       
@@ -188,10 +210,6 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/03/20/浏览器缓存/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
@@ -199,7 +217,16 @@
   </div>
 </article>
 
-
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/12/同源政策及跨域解决方案/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">同源政策及跨域解决方案</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
 
 
@@ -207,203 +234,28 @@
 
 
   
-    <article id="post-同源政策及跨域解决方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/12/同源政策及跨域解决方案/">同源政策及跨域解决方案</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/12/同源政策及跨域解决方案/" class="archive-article-date">
-  	<time datetime="2017-03-12T12:38:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="同源政策"><a href="#同源政策" class="headerlink" title="同源政策"></a>同源政策</h2><h3 id="什么是同源政策"><a href="#什么是同源政策" class="headerlink" title="什么是同源政策"></a>什么是同源政策</h3><p>同源策略的同源是指：<code>协议相同（http://）</code>、<code>域名相同（www.example.com）</code>、<code>端口相同（:80）</code>。只有同源的网站才允许相互通信，而无法访问其他域的资源。</p>
-<h3 id="同源政策的目的"><a href="#同源政策的目的" class="headerlink" title="同源政策的目的"></a>同源政策的目的</h3><p>同源政策的目的是为了保证用户信息的安全，防止恶意的网站窃取数据。假设我们登录了一个可信网站A，浏览器记录下了cookie，如果没有同源策略，当我们再去浏览其他的网站，其他网站就可以读取A网站的cookie，此时我们的信息就会泄露。而我们知道，cookie一般是用来保存登录状态的，如果我们没有退出登录就去浏览其他网站，其他网站就可以冒充用户进行操作。可见，同源政策是非常有必要的。</p>
-        
-          <a class="article-more-a" href="/2017/03/12/同源政策及跨域解决方案/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">同源政策</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">跨域</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/03/12/同源政策及跨域解决方案/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="浏览器缓存" data-title="浏览器缓存" data-url="http://yoursite.com/2017/03/20/浏览器缓存/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"amie121"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
   
-    <article id="post-总结-前端安全" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/10/总结-前端安全/">总结--前端安全</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/10/总结-前端安全/" class="archive-article-date">
-  	<time datetime="2017-03-10T07:39:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前端安全问题是必须防范的问题，网页都有被攻击的风险，我们必须了解其原理才能更好的采取防范措施，维护前端安全。</p>
-<h1 id="前端攻击形式"><a href="#前端攻击形式" class="headerlink" title="前端攻击形式"></a>前端攻击形式</h1><h2 id="XSS攻击"><a href="#XSS攻击" class="headerlink" title="XSS攻击"></a>XSS攻击</h2><p>跨站脚本攻击，它允许web用户将代码植入到提供给其他用户使用的页面中，在前端方面，可以简单的理解为一种JavaScript代码注入。它的核心是利用了浏览器无法区分脚本是第三方注入的，还是真的是你应用程序的一部分。</p>
-        
-          <a class="article-more-a" href="/2017/03/10/总结-前端安全/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">安全</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/03/10/总结-前端安全/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
 
 
-
-
-
-
-
-
-  
-    <article id="post-Hello" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/09/Hello/">Hello</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/09/Hello/" class="archive-article-date">
-  	<time datetime="2017-03-09T13:38:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="写给自己的话"><a href="#写给自己的话" class="headerlink" title="写给自己的话"></a>写给自己的话</h3><p>我希望自己</p>
-<p>十分努力</p>
-<p>十分幸运</p>
-<p>爱我和我爱的人都幸福</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/03/09/Hello/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-  
 
 
           </div>
@@ -425,8 +277,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
