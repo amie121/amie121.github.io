@@ -6,14 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 安全 | AMIE&#39;S BLOG</title>
+  <title>常见内存泄露[转] | AMIE&#39;S BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="AMIE'S BLOG">
-<meta property="og:url" content="http://yoursite.com/tags/安全/index.html">
+  <meta name="description" content="写在前面：原文地址一时找不到，本文大多数内容借鉴原文，用自己好理解的话表述了一遍。
+关于内存泄露什么是内存泄露内存泄露值任何对象在你不再拥有或需要它之后仍然存在。
+常见的导致内存泄露的几种情况：  
+意外的全局变量所谓意外就是违背开发者意图的行为。一般是函数中的变量不小心成为了全局（window）对象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见内存泄露[转]">
+<meta property="og:url" content="http://yoursite.com/2017/06/20/常见内存泄露/index.html">
 <meta property="og:site_name" content="AMIE'S BLOG">
+<meta property="og:description" content="写在前面：原文地址一时找不到，本文大多数内容借鉴原文，用自己好理解的话表述了一遍。
+关于内存泄露什么是内存泄露内存泄露值任何对象在你不再拥有或需要它之后仍然存在。
+常见的导致内存泄露的几种情况：  
+意外的全局变量所谓意外就是违背开发者意图的行为。一般是函数中的变量不小心成为了全局（window）对象。">
+<meta property="og:updated_time" content="2017-06-20T13:13:54.731Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AMIE'S BLOG">
+<meta name="twitter:title" content="常见内存泄露[转]">
+<meta name="twitter:description" content="写在前面：原文地址一时找不到，本文大多数内容借鉴原文，用自己好理解的话表述了一遍。
+关于内存泄露什么是内存泄露内存泄露值任何对象在你不再拥有或需要它之后仍然存在。
+常见的导致内存泄露的几种情况：  
+意外的全局变量所谓意外就是违背开发者意图的行为。一般是函数中的变量不小心成为了全局（window）对象。">
   
     <link rel="alternative" href="/atom.xml" title="AMIE&#39;S BLOG" type="application/atom+xml">
   
@@ -137,36 +150,66 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-常见内存泄露" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/10/总结-前端安全/" class="archive-article-date">
-  	<time datetime="2017-03-10T07:39:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-10</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/10/总结-前端安全/">前端安全</a>
+    <h1 class="article-title" itemprop="name">
+      常见内存泄露[转]
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/06/20/常见内存泄露/" class="archive-article-date">
+  	<time datetime="2017-06-20T12:50:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>写在前面：原文地址一时找不到，本文大多数内容借鉴原文，用自己好理解的话表述了一遍。</p>
+<h2 id="关于内存泄露"><a href="#关于内存泄露" class="headerlink" title="关于内存泄露"></a>关于内存泄露</h2><h3 id="什么是内存泄露"><a href="#什么是内存泄露" class="headerlink" title="什么是内存泄露"></a>什么是内存泄露</h3><p>内存泄露值任何对象在你不再拥有或需要它之后仍然存在。</p>
+<p>常见的导致内存泄露的几种情况：  </p>
+<h3 id="意外的全局变量"><a href="#意外的全局变量" class="headerlink" title="意外的全局变量"></a>意外的全局变量</h3><p>所谓意外就是违背开发者意图的行为。一般是函数中的变量不小心成为了全局（window）对象。</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">	a = &quot;this is a&quot;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 这个函数与下面函数无异</div><div class="line">function foo() &#123;</div><div class="line">	window.a = &quot;this is a&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>还需要注意的是<code>this</code>，<code>this</code>意外的指向了window也会导致泄露</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">	this.a = &quot;this is a&quot;;</div><div class="line">&#125;</div><div class="line">//然后全局环境下调用;此时this的指向为window</div><div class="line">foo();</div></pre></td></tr></table></figure>
+<p>在严格模式下会报错，因此可以开启严格模式<code>&#39;use strict&#39;</code>帮助我们排查这类问题。</p>
+<h3 id="没有及时解除对DOM元素的引用"><a href="#没有及时解除对DOM元素的引用" class="headerlink" title="没有及时解除对DOM元素的引用"></a>没有及时解除对DOM元素的引用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var elements = &#123;</div><div class="line">	button: document.getElementById(&apos;btn&apos;),</div><div class="line">	image: document.getElementById(&apos;image&apos;)</div><div class="line">&#125;;</div><div class="line">function removeButton() &#123;</div><div class="line">	document.body.removeChild(document.getElementById(&apos;btn&apos;));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>触发<code>removeButton</code>函数，虽然我们用<code>removeChild</code>移除了button，但是还在elements对象里保存着对button的引用，也就是说DOM元素还在内存里头。<br>解除引用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function removeButton() &#123;</div><div class="line">	document.body.removeChild(document.getElementById(&apos;btn&apos;));</div><div class="line">	elements.button = null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>还有一种常见情况是在定时器里引用了DOM元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var someCode = getCode();</div><div class="line">setInterval(function() &#123;</div><div class="line">	var node = document.getElementById(&apos;node&apos;);</div><div class="line">	if(node) &#123;</div><div class="line">		node.innerHTML = JSON.stringify(someCode);</div><div class="line">	&#125;</div><div class="line">&#125;, 1000);</div></pre></td></tr></table></figure>
+<p>此时，若把<code>node</code>节点从DOM中移除，由于定时器的回调中仍然保存着对someCode的引用，因此外部变量<code>someCode</code>不会被释放。</p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>首先先来预热一下什么是闭包，看下列一段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var theThing = null;</div><div class="line">var replaceThing = function () &#123;</div><div class="line">  var someMessage = &apos;123&apos;</div><div class="line">  theThing = &#123;</div><div class="line">    someMethod: function () &#123;</div><div class="line">      console.log(someMessage);</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>在调用<code>replaceThing</code>之后，调用<code>theThing.someMethod</code>，会输出<code>123</code>，基本的闭包，这个不难理解。<br>然而改一下代码 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var theThing = null;</div><div class="line">var replaceThing = function () &#123;</div><div class="line">  var originalThing = theThing;</div><div class="line">  var someMessage = &apos;123&apos;</div><div class="line">  theThing = &#123;</div><div class="line">    longStr: new Array(1000000).join(&apos;*&apos;),        // 大概占用1MB内存</div><div class="line">    someMethod: function () &#123;</div><div class="line">      console.log(someMessage);</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>我们先做一个<strong>假设</strong>, 如果函数中所有的私有变量, 不管<code>someMethod</code>用不用, 都被放进闭包的话, 那么会发生什么呢.</p>
+<p>第一次调用<code>replaceThing</code>, 闭包中包含<code>originalThing = null</code>和<code>someMessage = &#39;123&#39;</code>, 我们设函数结束时, <code>theThing</code>的值为<code>theThing_1</code>.</p>
+<p>第二次调用<code>replaceThing</code>, 如果我们的假设成立, <code>originalThing = theThing_1</code>和<code>someMessage = &#39;123&#39;</code>.我们设第二次调用函数结束时, <code>theThing的值为theThing_2</code>.注意, 此时的<code>originalThing</code>保存着<code>theThing_1</code>, <code>theThing_1</code>包含着和<code>theThing_2</code>截然不同的<code>someMethod</code>, <code>theThing_1</code>的<code>someMethod</code>中包含一个<code>someMessage</code>, 同样如果我们的假设成立, 第一次的<code>originalThing = null</code>应该也在.</p>
+<p>所以, 如果我们的假设成立, 第二次调用以后, 内存中有<code>theThing_1</code>和<code>theThing_2</code>, 因为他们都是靠<code>longStr</code>把占用内存撑起来, 所以第二次调用以后, 内存消耗比第一次多1MB.</p>
+<p>如果你亲自试了(使用Chrome的Profiles查看每次调用后的内存快照), 会发现我们的假设是不成立的, 浏览器很聪明, 它只会把<code>someMethod</code>用到的变量保存下来, 用不到的（比如<code>originalThing</code>）就不保存了, 这为我们节省了内存.</p>
+<p>但如果我们这么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var theThing = null;</div><div class="line">var replaceThing = function () &#123;</div><div class="line">  var originalThing = theThing;</div><div class="line">  var unused = function () &#123;</div><div class="line">    if (originalThing)</div><div class="line">      console.log(&quot;hi&quot;);</div><div class="line">  &#125;;</div><div class="line">  var someMessage = &apos;123&apos;</div><div class="line">  theThing = &#123;</div><div class="line">    longStr: new Array(1000000).join(&apos;*&apos;),</div><div class="line">    someMethod: function () &#123;</div><div class="line">      console.log(someMessage);</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>打开开发者工具，会看到每秒钟1MB、1MB的涨，来分析一下这段代码是如何造成内存泄露的。</p>
+<p><code>unused</code>这个函数中，我们定义了一个引用<code>originalThing</code>的闭包但是没有真正调用，但是因为闭包的存在，<code>originalThing</code>会在词法环境中，所有定义在<code>replaceThing</code>里的函数都能够访问。</p>
+<p>而<code>someMethod</code>这个函数中，虽然我们没有使用<code>originalThing</code>，但我们的确引用了它。为什么呢？因为<code>originalThing</code>是词法作用域的一部分（在<code>unused</code>函数中被放进了闭包里），<code>someMethod</code>会保持对<code>originalThing</code>的引用，导致我们每次调用都会覆盖<code>theThing</code>但是原来的值永远不会被清除。</p>
+<p>与上一个例子的不同之处在于：上一个例子中<code>originalThing</code>并没有被<code>someMethod</code>引用；而这个例子中，由于<code>unused</code>函数引用了<code>originalThing</code>，<code>someMethod</code>会保持对<code>originalThing</code>的引用。</p>
+<p>如果把<code>unused</code>函数去掉，或者在<code>replaceThing</code>函数结尾让<code>originalThing = null</code>，就不会泄露了。</p>
+<p><strong>在一个闭包中引用的任何局部变量都会被该闭包保留，只要该闭包存在就永远保留。</strong></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -176,25 +219,65 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">安全</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">性能</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">内存泄露</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/03/20/浏览器缓存/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浏览器缓存</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="常见内存泄露" data-title="常见内存泄露[转]" data-url="http://yoursite.com/2017/06/20/常见内存泄露/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"amie121"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
 
-    
+
 
 
           </div>
@@ -217,9 +300,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
